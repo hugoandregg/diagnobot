@@ -1,0 +1,77 @@
+<html>
+<head>
+  <link rel="stylesheet" media="screen" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style type="text/css">
+    .input_fields, .img-responsive {
+      padding-bottom: 10px;
+    }
+
+    .input_fields .form-control {
+      margin: 5px 0px 5px 0px;
+    }
+
+    #robot {
+      position: absolute;
+      left: 0px;
+      bottom: 0px;
+      height: 17%;
+    }
+  </style>
+</head>
+
+<body>
+  <img id="robot" src="{{ url_for('static', filename = 'max_cubo.png') }}" alt="Logo">
+  <div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <h2 class="text-center">Monte seu Roteiro</h2>
+            <img class="img-responsive" src="{{ url_for('static', filename = 'ciclo_historia.png') }}" alt="Passo a Passo">
+            <form class="form-group" action="/salvar_json">
+              <div class="input_fields">
+                <div>
+                  <textarea name="1_introducao" class="form-control" rows="5" cols="30" placeholder="Insira uma introdução"></textarea>
+                </div>
+              </div>
+              <div class="text-center">
+                <button class="adc_historia btn btn-primary">Adicionar Conteúdo</button>
+                <button class="adc_questao btn btn-primary">Adicionar Pergunta</button>
+                <button type="submit" class="btn btn-success">Salvar</button>
+              </div>
+            </form>
+        </div>
+    </div>
+  </div>
+  <script>
+    $(document).ready(function() {
+        var wrapper = $(".input_fields"); 
+        var adc_questao = $(".adc_questao"); 
+        var adc_historia = $(".adc_historia"); 
+        
+        var x = 1;
+
+        $(adc_questao).click(function(e){
+            e.preventDefault();
+            x++;
+            $(wrapper).append('<div><input type="text" class="form-control" name="' + x + '_questao" placeholder="Insira uma Questão"/><a class="remove_questao" href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div>');
+        });
+
+        $(adc_historia).click(function(e){
+            e.preventDefault();
+            x++;  
+            $(wrapper).append('<div><textarea class="form-control" name="' + x + '_historia" rows="5" cols="30" placeholder="Insira uma História"></textarea><a class="remove_questao" href="#"><i class="fa fa-times" aria-hidden="true"></i></a></div>');
+        });
+
+        $(wrapper).on("click",".remove_questao", function(e){
+            e.preventDefault(); $(this).parent('div').remove(); x--;
+        })
+
+        $(wrapper).on("click",".remove_historia", function(e){
+            e.preventDefault(); $(this).parent('div').remove(); x--;
+        })
+    });
+  </script>
+</body>
